@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 data = pd.read_csv('data.csv')
 pd.set_option('display.max_columns', None)
@@ -27,12 +28,30 @@ for column in refinedData.columns:
         if column_range != 0:  # Avoid division by zero
             normalized_data[column] = (refinedData[column] - column_min) / column_range
         else:
-            # If the column has the same value for all rows, keep it as 0 (or 1 if you prefer)
             normalized_data[column] = 0
 
 normalized_data['track_popularity'] = (refinedData['track_popularity'] >= 50).astype(int)
 
-# Print the first 5 rows of the normalized data
-print(normalized_data.head())
+np.random.seed(90) 
+normalized_data['randomNum'] = np.random.randint(1, 10001, size=len(normalized_data))
+normalized_data['category'] = pd.qcut(normalized_data['randomNum'], q=5, labels=[0, 1, 2, 3, 4])
+
+train_data = normalized_data[normalized_data['category'] < 4]  
+test_data = normalized_data[normalized_data['category'] == 4]  
+
+'''
+train_data = train_data.drop(columns=['randomNum', 'category'])
+test_data = test_data.drop(columns=['randomNum', 'category'])
+
+print("Train Data Size:", train_data.shape)
+print("Test Data Size:", test_data.shape)
+print("normalized data size", normalized_data.shape)
+
+print("Train Data:\n", train_data.head())
+print("\nTest Data:\n", test_data.head())
+'''
+
+def calclulateEuclideanDistance()
+
 
 
