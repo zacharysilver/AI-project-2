@@ -49,7 +49,7 @@ def dataLoadingAndNormalization():
         refinedData["track_popularity"] >= 50
     ).astype(int)
 
-    np.random.seed()
+    np.random.seed(60) #so results can be replicated
     normalized_data["randomNum"] = np.random.randint(
         1, 10001, size=len(normalized_data)
     )
@@ -99,7 +99,6 @@ def create_distance_matrix(normalized_data):
 
 
 def kNN(normalized_data):
-    print("normalized data:\n" + str(normalized_data))
     normalized_data["original_index"] = normalized_data.index
     distanceMatrix = create_distance_matrix(normalized_data)
     print("distance matrix has been computed")
@@ -150,7 +149,7 @@ def kNN(normalized_data):
 
 def main():
     normalizedData = dataLoadingAndNormalization()
-    normalizedData = normalizedData.head(100)
+    normalizedData = normalizedData.head(500)
     kNN(normalizedData)
 
 
