@@ -74,7 +74,7 @@ def bestEntropy(data):
 
 def onelevel(data):
     column, val, entr = bestEntropy(data)
-    if column == '':
+    if column == "":
         return column, val
     print(column, val, entr)
     lt_true = data[data[column] < val]["track_popularity"].sum()
@@ -88,11 +88,11 @@ def onelevel(data):
 def buildTree(data, depth):
     if len(data) == 0:
         return False
-    if depth ==0:
-        return bool(np.array(data['track_popularity']).mean()>=0.5)
+    if depth == 0:
+        return bool(np.array(data["track_popularity"]).mean() >= 0.5)
     column, val, entr = bestEntropy(data)
-    if column == '':
-        return bool(np.array(data['track_popularity']).mean()>=0.5)
+    if column == "":
+        return bool(np.array(data["track_popularity"]).mean() >= 0.5)
     left = data[data[column] < val]
 
     right = data[data[column] >= val]

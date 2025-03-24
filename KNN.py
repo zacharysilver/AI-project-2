@@ -49,7 +49,7 @@ def dataLoadingAndNormalization():
         refinedData["track_popularity"] >= 50
     ).astype(int)
 
-    np.random.seed(60) #so results can be replicated
+    np.random.seed(60)  # so results can be replicated
     normalized_data["randomNum"] = np.random.randint(
         1, 10001, size=len(normalized_data)
     )
