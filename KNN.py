@@ -99,7 +99,7 @@ def create_distance_matrix(normalized_data):
 
 
 def kNN(normalized_data):
-    normalized_data["original_index"] = normalized_data.index
+    normalized_data["original_index"] = [i for i in range(len(normalized_data))]
     distanceMatrix = create_distance_matrix(normalized_data)
     print("distance matrix has been computed")
 
@@ -134,6 +134,17 @@ def kNN(normalized_data):
         for i, k in enumerate([1, 3, 5]):
             predicted_values = test_data[str(k) + "NNPrediction"]
             actual_values = test_data["track_popularity"]
+            tp = sum(1 if (a == 1) and (b == 1) else 0 for a, b in zip(actual_values, predicted_values))
+            fp = sum(1 if (a == 0) and (b == 1) else 0 for a, b in zip(actual_values, predicted_values))
+            tn = sum(1 if (a == 0) and (b == 0) else 0 for a, b in zip(actual_values, predicted_values))
+            fn = sum(1 if (a == 1) and (b == 0) else 0 for a, b in zip(actual_values, predicted_values))
+
+
+            print(f"True Positives (TP): {tp}")
+            print(f"False Positives (FP): {fp}")
+            print(f"True Negatives (TN): {tn}")
+            print(f"False Negatives (FN): {fn}")
+
             accuracy = calculate_accuracy(predicted_values, actual_values)
             print(f"Accuracy for fold = {fold}, k={k}: {accuracy:.4f}")
             kNNAccuracyStats[i][fold] = accuracy
@@ -149,7 +160,10 @@ def kNN(normalized_data):
 
 def main():
     normalizedData = dataLoadingAndNormalization()
-    normalizedData = normalizedData.head(500)
+    #normalizedData = normalizedData.sample(n=100, random_state=42)
+    #print(normalizedData.index)
+    normalizedData = normalizedData.head(100)
+    print(sum(normalizedData["track_popularity"]))
     kNN(normalizedData)
 
 
